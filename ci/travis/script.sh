@@ -9,13 +9,13 @@ function install_cuda_linux()
     wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
     sudo dpkg -i cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
     sudo apt-get update
-    sudo apt-get install cuda    
+    sudo apt-get install cuda-9-1    
 }
 
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
     install_cuda_linux;
-    ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-8.0 -DNO_DEBUGINFO;
+    ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.1 -DNO_DEBUGINFO;
     cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
     python ci/webdav_upload.py catboost-cuda-linux
 fi
